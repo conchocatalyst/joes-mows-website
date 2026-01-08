@@ -1,0 +1,10 @@
+# OS files
+.DS_Store
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Node modules (if you add any build tools later)
+node_modules/
