@@ -43,48 +43,74 @@ window.addEventListener('scroll', () => {
 const contactForm = document.querySelector('.contact-form');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         // Get form data
         const formData = new FormData(contactForm);
-        const data = Object.fromEntries(formData);
         
-        // Here you would typically send the data to a server
-        // For now, we'll just show a success message
-        
-        // Create success message
-        const successMessage = document.createElement('div');
-        successMessage.style.cssText = `
-            background-color: #2d7a3e;
-            color: white;
-            padding: 1.5rem;
-            border-radius: 5px;
-            margin-top: 1rem;
-            text-align: center;
-            font-weight: 600;
-        `;
-        successMessage.textContent = 'Thank you! We\'ll get back to you soon with your free quote.';
-        
-        // Remove any existing success messages
-        const existingMessage = contactForm.querySelector('.success-message');
-        if (existingMessage) {
-            existingMessage.remove();
+        try {
+            // Submit to Netlify
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(formData).toString()
+            });
+            
+            if (response.ok) {
+                // Create success message
+                const successMessage = document.createElement('div');
+                successMessage.style.cssText = `
+                    background-color: #2d7a3e;
+                    color: white;
+                    padding: 1.5rem;
+                    border-radius: 5px;
+                    margin-top: 1rem;
+                    text-align: center;
+                    font-weight: 600;
+                `;
+                successMessage.textContent = 'Thank you! We\'ll get back to you soon with your free quote.';
+                
+                // Remove any existing success messages
+                const existingMessage = contactForm.querySelector('.success-message');
+                if (existingMessage) {
+                    existingMessage.remove();
+                }
+                
+                // Add success message class for easier targeting
+                successMessage.classList.add('success-message');
+                
+                // Append message and reset form
+                contactForm.appendChild(successMessage);
+                contactForm.reset();
+                
+                // Remove message after 5 seconds
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 5000);
+            } else {
+                throw new Error('Form submission failed');
+            }
+        } catch (error) {
+            // Show error message
+            const errorMessage = document.createElement('div');
+            errorMessage.style.cssText = `
+                background-color: #dc3545;
+                color: white;
+                padding: 1.5rem;
+                border-radius: 5px;
+                margin-top: 1rem;
+                text-align: center;
+                font-weight: 600;
+            `;
+            errorMessage.textContent = 'Oops! Something went wrong. Please call us at (325) 213-2311.';
+            errorMessage.classList.add('success-message');
+            contactForm.appendChild(errorMessage);
+            
+            setTimeout(() => {
+                errorMessage.remove();
+            }, 5000);
         }
-        
-        // Add success message class for easier targeting
-        successMessage.classList.add('success-message');
-        
-        // Append message and reset form
-        contactForm.appendChild(successMessage);
-        contactForm.reset();
-        
-        // Remove message after 5 seconds
-        setTimeout(() => {
-            successMessage.remove();
-        }, 5000);
-        
-        console.log('Form submitted:', data);
     });
 }
 

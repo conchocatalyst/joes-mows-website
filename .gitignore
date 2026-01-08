@@ -8,3 +8,6 @@
 
 # Node modules (if you add any build tools later)
 node_modules/
+
+# Local Netlify folder
+.netlify
