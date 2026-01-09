@@ -1,0 +1,10 @@
+[build]
+  publish = "."
+  command = "echo 'No build required - static site'
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+  conditions = {Role = ["admin"]}
