@@ -103,7 +103,7 @@ if (contactForm) {
                 text-align: center;
                 font-weight: 600;
             `;
-            errorMessage.textContent = 'Oops! Something went wrong. Please call us at (325) 213-2311.';
+            errorMessage.textContent = 'Oops! Something went wrong. Please call us at (325) 238-8874.';
             errorMessage.classList.add('success-message');
             contactForm.appendChild(errorMessage);
             
